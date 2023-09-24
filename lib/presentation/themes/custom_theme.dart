@@ -13,6 +13,14 @@ class Styles {
       foregroundColor: myColorScheme.primary,
       backgroundColor: myColorScheme.onPrimary,
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+        foregroundColor: myColorScheme.primary,
+        backgroundColor: myColorScheme.primaryContainer,
+      ),
+    ),
     // textTheme: ThemeData().textTheme.copyWith()
   );
 
@@ -23,6 +31,14 @@ class Styles {
       centerTitle: true,
       foregroundColor: myColorScheme.primaryContainer,
       backgroundColor: myColorScheme.onPrimaryContainer,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+        foregroundColor: myColorScheme.onPrimary,
+        backgroundColor: myColorScheme.onPrimaryContainer,
+      ),
     ),
   );
 }

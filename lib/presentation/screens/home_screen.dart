@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/theme_cubit/theme_cubit.dart';
+import '../widgets/custom_button.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home_screen';
@@ -27,6 +28,12 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {}),
+      body: Center(
+        child: CustomButton(
+          onPressed: () {},
+          title: 'Add Task',
+        ),
+      ),
     );
   }
 }
