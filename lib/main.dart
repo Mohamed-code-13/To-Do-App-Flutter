@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/presentation/screens/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'presentation/themes/custom_theme.dart';
+import 'logic/theme_cubit/theme_cubit.dart';
+import 'presentation/screens/to_do_app.dart';
 
 void main() {
-  runApp(const ToDoApp());
+  runApp(const App());
 }
 
-class ToDoApp extends StatelessWidget {
-  const ToDoApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'To Do App',
-      theme: Styles.lightTheme,
-      darkTheme: Styles.darkTheme,
-      themeMode: ThemeMode.light,
-      home: const HomeScreen(),
+    return BlocProvider(
+      create: (_) => ThemeCubit(),
+      child: const ToDoApp(),
     );
   }
 }
