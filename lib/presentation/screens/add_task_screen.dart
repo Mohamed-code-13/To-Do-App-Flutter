@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/custom_button.dart';
+import '../widgets/custom_drop_down_button.dart';
 import '../widgets/label_input_field.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -17,10 +18,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final DateFormat _dateFormat = DateFormat.yMd();
-  late String _date;
   final DateFormat _timeFormat = DateFormat('hh:mm a');
+  late String _date;
   late String _startTime;
   late String _endTime;
+  late String _repeat;
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _endTime = _timeFormat.format(
       DateTime.now().add(const Duration(minutes: 15)),
     );
+    _repeat = 'None';
   }
 
   @override
@@ -57,10 +60,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               _getDate(context),
               _getStartEndTime(context),
-              const LabelInputField(
-                title: 'Repeat',
-                hintText: 'None',
-              ),
+              _getRepeat(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(onPressed: () {}, title: 'Create task'),
@@ -68,6 +68,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  LabelInputField _getRepeat() {
+    return LabelInputField(
+      title: 'Repeat',
+      hintText: _repeat,
+      icon: CustomDropDownButton(
+        onChanged: (val) => setState(() => _repeat = val!),
       ),
     );
   }
@@ -100,53 +110,54 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Row _getStartEndTime(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: LabelInputField(
-            title: 'Start Time',
-            hintText: _startTime,
-            icon: IconButton(
-              icon: const Icon(Icons.timer_outlined),
-              onPressed: () {
-                showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.fromDateTime(
-                    _timeFormat.parse(_startTime),
-                  ),
-                ).then((value) {
-                  if (value == null) return;
-
-                  setState(() {
-                    _startTime = value.format(context);
-                  });
-                });
-              },
-            ),
-          ),
+        _getTimeWidget(
+          context,
+          'Start Time',
+          _startTime,
+          (String value) {
+            _startTime = value;
+          },
         ),
-        Expanded(
-          child: LabelInputField(
-            title: 'End Time',
-            hintText: _endTime,
-            icon: IconButton(
-              icon: const Icon(Icons.timer_outlined),
-              onPressed: () {
-                showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.fromDateTime(
-                    _timeFormat.parse(_endTime),
-                  ),
-                ).then((value) {
-                  if (value == null) return;
-
-                  setState(() {
-                    _endTime = value.format(context);
-                  });
-                });
-              },
-            ),
-          ),
+        _getTimeWidget(
+          context,
+          'End Time',
+          _endTime,
+          (String value) {
+            _endTime = value;
+          },
         ),
       ],
+    );
+  }
+
+  Expanded _getTimeWidget(
+    BuildContext context,
+    String title,
+    String hintText,
+    void Function(String value) onChange,
+  ) {
+    return Expanded(
+      child: LabelInputField(
+        title: title,
+        hintText: hintText,
+        icon: IconButton(
+          icon: const Icon(Icons.timer_outlined),
+          onPressed: () {
+            showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.fromDateTime(
+                _timeFormat.parse(hintText),
+              ),
+            ).then((value) {
+              if (value == null) return;
+
+              setState(() {
+                onChange(value.format(context));
+              });
+            });
+          },
+        ),
+      ),
     );
   }
 }

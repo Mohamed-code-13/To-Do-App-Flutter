@@ -22,6 +22,11 @@ class Styles {
         backgroundColor: myColorScheme.primaryContainer,
       ),
     ),
+    dropdownMenuTheme: const DropdownMenuThemeData().copyWith(
+      textStyle: GoogleFonts.robotoMono(
+        color: Colors.white,
+      ),
+    ),
     textTheme: GoogleFonts.robotoMonoTextTheme(),
   );
 
@@ -40,6 +45,11 @@ class Styles {
         padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
         foregroundColor: myColorScheme.primary,
         backgroundColor: myColorScheme.primaryContainer,
+      ),
+    ),
+    dropdownMenuTheme: const DropdownMenuThemeData().copyWith(
+      textStyle: GoogleFonts.robotoMono(
+        color: Colors.white,
       ),
     ),
     textTheme: GoogleFonts.robotoMonoTextTheme(),
