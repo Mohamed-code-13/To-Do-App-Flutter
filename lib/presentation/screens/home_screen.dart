@@ -34,26 +34,23 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               themeCubit.toggleThemeMode();
             },
-            icon: state == ThemeMode.light
-                ? const Icon(Icons.wb_sunny_outlined)
-                : const Icon(Icons.nightlight_round_outlined),
+            icon: _getCorrectIcon(state),
           ),
         ),
+        actions: [_getPersonLogo()],
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _addTaskBar(),
-              DateTimeLineBar(
-                onChanged: (DateTime date) => setState(() {
-                  _selectedDateTime = date;
-                }),
-              ),
-              _noTasks(context),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _addTaskBar(),
+            DateTimeLineBar(
+              onChanged: (DateTime date) => setState(() {
+                _selectedDateTime = date;
+              }),
+            ),
+            _noTasks(context),
+          ],
         ),
       ),
     );
@@ -90,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
           textAlign: TextAlign.center,
           style: GoogleFonts.robotoMono(
             fontSize: SizeConfig.getProportionateScreenWidth(16),
-            color: _getColor(),
+            color: _getCorrectColor(),
           ),
         ),
       ],
@@ -105,23 +102,40 @@ class _HomeScreenState extends State<HomeScreen> {
           _dateFormat.format(DateTime.now()),
           style: GoogleFonts.robotoMono(
             fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: _getColor(),
+            fontSize: SizeConfig.getProportionateScreenWidth(18),
+            color: _getCorrectColor(),
           ),
         ),
         Text(
           'Today',
           style: GoogleFonts.robotoMono(
             fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: _getColor(),
+            fontSize: SizeConfig.getProportionateScreenWidth(20),
+            color: _getCorrectColor(),
           ),
         ),
       ],
     );
   }
 
-  Color _getColor() {
+  Widget _getPersonLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: Image.asset(
+        'assets/images/man.png',
+        width: SizeConfig.getProportionateScreenWidth(35),
+      ),
+    );
+  }
+
+  Widget _getCorrectIcon(state) {
+    if (state == ThemeMode.light) {
+      return const Icon(Icons.wb_sunny_outlined);
+    }
+    return const Icon(Icons.nightlight_round_outlined);
+  }
+
+  Color _getCorrectColor() {
     return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
         ? Theme.of(context).colorScheme.primary
         : Colors.grey;
