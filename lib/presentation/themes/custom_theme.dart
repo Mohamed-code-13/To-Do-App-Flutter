@@ -27,9 +27,10 @@ class Styles {
   static ThemeData darkTheme = ThemeData.dark().copyWith(
     useMaterial3: true,
     colorScheme: myColorScheme,
+    scaffoldBackgroundColor: const Color(0xFF121212),
     appBarTheme: const AppBarTheme().copyWith(
       centerTitle: true,
-      foregroundColor: myColorScheme.primaryContainer,
+      foregroundColor: Colors.white,
       backgroundColor: myColorScheme.onPrimaryContainer,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
