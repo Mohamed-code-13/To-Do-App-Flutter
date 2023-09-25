@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../size_config/size_config.dart';
+
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String title;
@@ -16,8 +18,8 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 18,
+        style: TextStyle(
+          fontSize: SizeConfig.getProportionateScreenWidth(16),
           fontWeight: FontWeight.bold,
         ),
       ),

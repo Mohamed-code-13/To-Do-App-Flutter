@@ -1,11 +1,12 @@
-import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/date_timeline_bar.dart';
 import 'add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
+  final DateFormat _dateFormat = DateFormat.yMMMMd();
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +43,36 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CustomButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(AddTaskScreen.routeName);
-                  },
-                  title: '+ Add Task'),
-              _dateBar(context),
+              _addTaskBar(),
+              DateTimeLineBar(
+                onChanged: (DateTime date) => setState(() {
+                  _selectedDateTime = date;
+                }),
+              ),
               _noTasks(context),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _addTaskBar() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _getTodayDate(),
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AddTaskScreen.routeName);
+            },
+            title: '+ Add Task',
+          ),
+        ],
       ),
     );
   }
@@ -63,53 +83,47 @@ class _HomeScreenState extends State<HomeScreen> {
         Image.asset(
           'assets/images/task.png',
           color: Theme.of(context).colorScheme.primary,
-          width: SizeConfig.screenWidth / 2.5,
+          width: SizeConfig.screenWidth / 3,
         ),
         Text(
           'You don\'t have any tasks yet',
           textAlign: TextAlign.center,
           style: GoogleFonts.robotoMono(
-            fontSize: SizeConfig.getProportionateScreenWidth(18),
-            color: BlocProvider.of<ThemeCubit>(context).themeMode ==
-                    ThemeMode.light
-                ? Theme.of(context).colorScheme.primary
-                : Colors.grey,
+            fontSize: SizeConfig.getProportionateScreenWidth(16),
+            color: _getColor(),
           ),
         ),
       ],
     );
   }
 
-  Widget _dateBar(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      child: DatePicker(
-        DateTime.now(),
-        width: 70,
-        height: SizeConfig.getProportionateScreenHeight(120),
-        selectionColor: Theme.of(context).colorScheme.primary,
-        selectedTextColor: Colors.white,
-        initialSelectedDate: DateTime.now(),
-        daysCount: 35,
-        onDateChange: (selectedDate) => setState(() {
-          _selectedDateTime = selectedDate;
-        }),
-        dayTextStyle: GoogleFonts.robotoMono(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-          color: Colors.grey,
+  Widget _getTodayDate() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          _dateFormat.format(DateTime.now()),
+          style: GoogleFonts.robotoMono(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: _getColor(),
+          ),
         ),
-        dateTextStyle: GoogleFonts.robotoMono(
-          fontWeight: FontWeight.w600,
-          fontSize: 22,
-          color: Colors.grey,
+        Text(
+          'Today',
+          style: GoogleFonts.robotoMono(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: _getColor(),
+          ),
         ),
-        monthTextStyle: GoogleFonts.robotoMono(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-          color: Colors.grey,
-        ),
-      ),
+      ],
     );
+  }
+
+  Color _getColor() {
+    return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
+        ? Theme.of(context).colorScheme.primary
+        : Colors.grey;
   }
 }
