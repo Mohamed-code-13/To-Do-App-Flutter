@@ -1,3 +1,4 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,10 +8,17 @@ import '../../logic/theme_cubit/theme_cubit.dart';
 import '../widgets/custom_button.dart';
 import 'add_task_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = '/home_screen';
 
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime _selectedDateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +48,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.of(context).pushNamed(AddTaskScreen.routeName);
                   },
                   title: '+ Add Task'),
+              _dateBar(context),
               _noTasks(context),
             ],
           ),
@@ -68,6 +77,39 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _dateBar(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      child: DatePicker(
+        DateTime.now(),
+        width: 70,
+        height: SizeConfig.getProportionateScreenHeight(120),
+        selectionColor: Theme.of(context).colorScheme.primary,
+        selectedTextColor: Colors.white,
+        initialSelectedDate: DateTime.now(),
+        daysCount: 35,
+        onDateChange: (selectedDate) => setState(() {
+          _selectedDateTime = selectedDate;
+        }),
+        dayTextStyle: GoogleFonts.robotoMono(
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+          color: Colors.grey,
+        ),
+        dateTextStyle: GoogleFonts.robotoMono(
+          fontWeight: FontWeight.w600,
+          fontSize: 22,
+          color: Colors.grey,
+        ),
+        monthTextStyle: GoogleFonts.robotoMono(
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }
