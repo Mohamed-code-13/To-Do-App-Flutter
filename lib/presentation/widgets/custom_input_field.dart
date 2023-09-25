@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 class CustomInputField extends StatelessWidget {
   final String hintText;
+  final TextEditingController? textEditingController;
+  final Widget? icon;
 
   const CustomInputField({
     super.key,
     required this.hintText,
+    this.textEditingController,
+    this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
       child: TextFormField(
         validator: (val) {
           if (val == null || val.isEmpty) {
@@ -19,7 +23,10 @@ class CustomInputField extends StatelessWidget {
           }
           return null;
         },
+        controller: textEditingController,
+        readOnly: icon != null,
         decoration: InputDecoration(
+          suffixIcon: icon,
           hintText: hintText,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),

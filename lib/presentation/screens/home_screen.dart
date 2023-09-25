@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/custom_input_field.dart';
+import 'add_task_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home_screen';
@@ -28,10 +28,13 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
-      body: const Center(
-        child: CustomInputField(
-          hintText: 'Enter a task title',
+      body: SafeArea(
+        child: Center(
+          child: CustomButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddTaskScreen.routeName);
+              },
+              title: '+ Add Task'),
         ),
       ),
     );
