@@ -9,6 +9,7 @@ import '../../models/task_model.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/date_timeline_bar.dart';
 import '../widgets/task_tile.dart';
+import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,15 +25,57 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
   final DateFormat _dateFormat = DateFormat.yMMMMd();
   final task = TaskModel(
-    title: 'First Title',
-    description: 'This is the first description of the first title',
-    date: '9/28/2023',
-    startTime: '02:43 PM',
-    endTime: '03:00 PM',
-    repeat: 'None',
-    isCompleted: true,
-    color: Colors.amber[800]!.value,
-  );
+      title: 'First Title',
+      description: 'This is the first description of the first title',
+      date: '9/28/2023',
+      startTime: '02:43 PM',
+      endTime: '03:00 PM',
+      repeat: 'None',
+      isCompleted: true,
+      color: 0xFF08c4b2);
+  List<TaskModel> tasks = [
+    TaskModel(
+      title: 'First Title',
+      description: 'This is the first description of the first title',
+      date: '9/28/2023',
+      startTime: '02:43 PM',
+      endTime: '03:00 PM',
+      repeat: 'None',
+      isCompleted: false,
+      color: Colors.amber[800]!.value,
+    ),
+    TaskModel(
+      title: 'First Title',
+      description: 'This is the first ',
+      date: '9/28/2023',
+      startTime: '02:43 PM',
+      endTime: '03:00 PM',
+      repeat: 'None',
+      isCompleted: true,
+      color: Colors.purple.value,
+    ),
+    TaskModel(
+      title: 'First Title',
+      description: 'This is the',
+      date: '9/28/2023',
+      startTime: '02:43 PM',
+      endTime: '03:00 PM',
+      repeat: 'None',
+      isCompleted: true,
+      color: Colors.amber[800]!.value,
+    ),
+    TaskModel(
+      title: 'First Title',
+      description:
+          'This is the first description of the first title asfsa fasd ',
+      date: '9/28/2023',
+      startTime: '02:43 PM',
+      endTime: '03:00 PM',
+      repeat: 'None',
+      isCompleted: false,
+      color: 0xFF08c4b2,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedDateTime = date;
               }),
             ),
-            TaskTile(
-              task: task,
-            ),
+            Expanded(child: TasksList(tasks: tasks)),
           ],
         ),
       ),
