@@ -21,13 +21,8 @@ class CustomInputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
       child: TextFormField(
-        validator: (val) {
-          if (val == null || val.isEmpty) {
-            return 'This field is required';
-          }
-          return null;
-        },
         controller: textEditingController,
+        validator: icon == null ? _validateInput : null,
         readOnly: icon != null,
         decoration: InputDecoration(
           suffixIcon: icon,
@@ -41,6 +36,13 @@ class CustomInputField extends StatelessWidget {
         style: GoogleFonts.robotoMono(color: _getTextColor(context)),
       ),
     );
+  }
+
+  String? _validateInput(val) {
+    if (val == null || val.isEmpty) {
+      return 'This field is required';
+    }
+    return null;
   }
 
   OutlineInputBorder _inputBorder(BuildContext context) {

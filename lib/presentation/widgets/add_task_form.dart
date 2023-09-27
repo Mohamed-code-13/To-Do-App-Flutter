@@ -77,7 +77,12 @@ class _AddTaskFormState extends State<AddTaskForm> {
             _getColorsBar(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CustomButton(onPressed: _onSubmit, title: 'Create task'),
+              child: CustomButton(
+                onPressed: _onSubmit,
+                title: 'Create task',
+                loading: BlocProvider.of<AddTaskCubit>(context).state
+                    is AddTaskLoadingState,
+              ),
             ),
           ],
         ),
@@ -214,9 +219,10 @@ class _AddTaskFormState extends State<AddTaskForm> {
         color: _selectedColor.value,
       );
       BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
-      Navigator.pop(context);
     } else {
-      autovalidateMode = AutovalidateMode.always;
+      setState(() {
+        autovalidateMode = AutovalidateMode.always;
+      });
     }
   }
 }

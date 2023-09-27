@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/add_task_cubit/add_task_cubit.dart';
+import 'logic/read_task_cubit/read_task_cubit.dart';
 import 'presentation/screens/add_task_screen.dart';
 import 'presentation/screens/home_screen.dart';
 
@@ -12,18 +13,14 @@ class AppRouter {
     switch (settings.name) {
       case HomeScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<AddTaskCubit>(
-            create: (_) => AddTaskCubit(),
-            child: const HomeScreen(),
-          ),
+          builder: (_) => const HomeScreen(),
         );
       case AddTaskScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-              value: BlocProvider.of<AddTaskCubit>(
-                settings.arguments as BuildContext,
-              ),
-              child: const AddTaskScreen()),
+          builder: (_) => BlocProvider<AddTaskCubit>(
+            create: (_) => AddTaskCubit(),
+            child: const AddTaskScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());

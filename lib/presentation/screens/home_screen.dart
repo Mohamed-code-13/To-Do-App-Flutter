@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
-import '../../logic/add_task_cubit/add_task_cubit.dart';
+import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/date_timeline_bar.dart';
@@ -24,6 +24,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
   final DateFormat _dateFormat = DateFormat.yMMMMd();
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildContent() {
-    return BlocBuilder<AddTaskCubit, AddTaskState>(builder: (context, state) {
-      if (state is AddTaskLoadingState) {
+    return BlocBuilder<ReadTaskCubit, ReadTaskState>(builder: (context, state) {
+      if (state is ReadTaskLoadingState) {
         return const LoadingIndicator();
       }
-      if (BlocProvider.of<AddTaskCubit>(context).tasks.isEmpty) {
+      if (BlocProvider.of<ReadTaskCubit>(context).tasks.isEmpty) {
         return _noTasks(context);
       } else {
         return _buildTasks();
@@ -75,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTasks() {
     return Expanded(
       child: TasksList(
-        tasks: BlocProvider.of<AddTaskCubit>(context).tasks,
+        tasks: BlocProvider.of<ReadTaskCubit>(context).tasks,
       ),
     );
   }
@@ -89,10 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _getTodayDate(),
           CustomButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                AddTaskScreen.routeName,
-                arguments: context,
-              );
+              Navigator.of(context).pushNamed(AddTaskScreen.routeName);
             },
             title: '+ Add Task',
           ),

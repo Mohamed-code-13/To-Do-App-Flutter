@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:to_do_app/models/task_model.dart';
 
+import 'logic/read_task_cubit/read_task_cubit.dart';
 import 'logic/theme_cubit/theme_cubit.dart';
 import 'presentation/screens/to_do_app.dart';
 import 'presentation/size_config/size_config.dart';
@@ -10,6 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskModelAdapter());
+  await Hive.openBox<TaskModel>(kTaskBox);
 
   runApp(const App());
 }
@@ -21,8 +25,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return BlocProvider<ThemeCubit>(
-      create: (_) => ThemeCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => ReadTaskCubit()),
+      ],
       child: const ToDoApp(),
     );
   }
