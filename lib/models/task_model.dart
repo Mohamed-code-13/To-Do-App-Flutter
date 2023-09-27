@@ -19,7 +19,7 @@ class TaskModel extends HiveObject {
   @HiveField(5)
   final String repeat;
   @HiveField(6)
-  final bool isCompleted;
+  bool isCompleted;
   @HiveField(7)
   final int color;
 

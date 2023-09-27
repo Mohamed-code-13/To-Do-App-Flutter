@@ -40,7 +40,8 @@ class TasksList extends StatelessWidget {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (_) => const CustomBottomModalSheet(),
+                        builder: (_) =>
+                            CustomBottomModalSheet(task: tasks[index]),
                       );
                     },
                     child: TaskTile(task: tasks[index])),
