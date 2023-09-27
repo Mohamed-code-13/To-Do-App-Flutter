@@ -5,6 +5,8 @@ class TaskModel {
   final String startTime;
   final String endTime;
   final String repeat;
+  final bool isCompleted;
+  final int color;
 
   const TaskModel({
     required this.title,
@@ -13,5 +15,7 @@ class TaskModel {
     required this.startTime,
     required this.endTime,
     required this.repeat,
+    required this.isCompleted,
+    required this.color,
   });
 }

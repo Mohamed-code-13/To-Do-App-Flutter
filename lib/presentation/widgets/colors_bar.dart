@@ -8,7 +8,7 @@ class ColorsBar extends StatelessWidget {
   final List<Color> colors = const [
     Color(0xFF08c4b2),
     Colors.purple,
-    Colors.amber,
+    Color(0xFFFF8F00),
   ];
 
   const ColorsBar({
@@ -21,15 +21,17 @@ class ColorsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: colors
-          .map((c) => GestureDetector(
-                onTap: () {
-                  onTap(c);
-                },
-                child: ColorAvatar(
-                  color: c,
-                  selected: c == selectedColor,
-                ),
-              ))
+          .map(
+            (c) => GestureDetector(
+              onTap: () {
+                onTap(c);
+              },
+              child: ColorAvatar(
+                color: c,
+                selected: c == selectedColor,
+              ),
+            ),
+          )
           .toList(),
     );
   }

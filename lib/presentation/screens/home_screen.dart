@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
 import '../../logic/theme_cubit/theme_cubit.dart';
+import '../../models/task_model.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/date_timeline_bar.dart';
+import '../widgets/task_tile.dart';
 import 'add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +23,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
   final DateFormat _dateFormat = DateFormat.yMMMMd();
+  final task = TaskModel(
+    title: 'First Title',
+    description: 'This is the first description of the first title',
+    date: '9/28/2023',
+    startTime: '02:43 PM',
+    endTime: '03:00 PM',
+    repeat: 'None',
+    isCompleted: true,
+    color: Colors.amber[800]!.value,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedDateTime = date;
               }),
             ),
-            _noTasks(context),
+            TaskTile(
+              task: task,
+            ),
           ],
         ),
       ),
