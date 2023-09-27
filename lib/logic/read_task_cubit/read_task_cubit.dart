@@ -16,7 +16,6 @@ class ReadTaskCubit extends Cubit<ReadTaskState> {
     var tasksBox = Hive.box<TaskModel>(kTaskBox);
 
     tasks = tasksBox.values.toList();
-    print(tasks);
     emit(ReadTaskSuccessState());
   }
 }

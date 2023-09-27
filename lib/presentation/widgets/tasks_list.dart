@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/presentation/widgets/task_tile.dart';
 
+import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../models/task_model.dart';
 
 class TasksList extends StatelessWidget {
@@ -21,11 +24,34 @@ class TasksList extends StatelessWidget {
           child: SlideAnimation(
             horizontalOffset: 300,
             child: FadeInAnimation(
-              child: TaskTile(task: tasks[index]),
+              child: Dismissible(
+                key: UniqueKey(),
+                background: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  color: Colors.red[800],
+                ),
+                onDismissed: (direction) {
+                  tasks[index].delete();
+                  _showSnackBar(context);
+                  BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+                },
+                child: TaskTile(task: tasks[index]),
+              ),
             ),
           ),
         );
       },
+    );
+  }
+
+  void _showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Task deleted!',
+          style: GoogleFonts.robotoMono(color: Colors.red),
+        ),
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ part 'task_model.g.dart';
 const String kTaskBox = 'task_box';
 
 @HiveType(typeId: 0)
-class TaskModel {
+class TaskModel extends HiveObject {
   @HiveField(0)
   final String title;
   @HiveField(1)
@@ -23,7 +23,7 @@ class TaskModel {
   @HiveField(7)
   final int color;
 
-  const TaskModel({
+  TaskModel({
     required this.title,
     required this.description,
     required this.date,
