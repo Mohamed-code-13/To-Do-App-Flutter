@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/add_task_cubit/add_task_cubit.dart';
-import 'logic/read_task_cubit/read_task_cubit.dart';
 import 'presentation/screens/add_task_screen.dart';
 import 'presentation/screens/home_screen.dart';
 
