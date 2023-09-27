@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/colors_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_drop_down_button.dart';
 import '../widgets/label_input_field.dart';
@@ -23,6 +24,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   late String _startTime;
   late String _endTime;
   late String _repeat;
+  late Color _selectedColor;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       DateTime.now().add(const Duration(minutes: 15)),
     );
     _repeat = 'None';
+    _selectedColor = const Color(0xFF08c4b2);
   }
 
   @override
@@ -69,6 +72,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               _getDate(context),
               _getStartEndTime(context),
               _getRepeat(),
+              _getColorsBar(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(onPressed: () {}, title: 'Create task'),
@@ -164,6 +168,33 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             });
           },
         ),
+      ),
+    );
+  }
+
+  Widget _getColorsBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Color',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          ColorsBar(
+            selectedColor: _selectedColor,
+            onTap: (Color currColor) {
+              setState(() {
+                _selectedColor = currColor;
+              });
+            },
+          ),
+        ],
       ),
     );
   }
