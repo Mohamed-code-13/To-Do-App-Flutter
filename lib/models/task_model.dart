@@ -2,6 +2,8 @@ import 'package:hive/hive.dart';
 
 part 'task_model.g.dart';
 
+const String kTaskBox = 'task_box';
+
 @HiveType(typeId: 0)
 class TaskModel {
   @HiveField(0)
