@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../logic/add_task_cubit/add_task_cubit.dart';
+import '../../models/task_model.dart';
 import '../widgets/colors_bar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_drop_down_button.dart';
@@ -75,7 +78,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               _getColorsBar(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomButton(onPressed: () {}, title: 'Create task'),
+                child: CustomButton(onPressed: _onSubmit, title: 'Create task'),
               ),
             ],
           ),
@@ -197,5 +200,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         ],
       ),
     );
+  }
+
+  void _onSubmit() {
+    TaskModel currTask = TaskModel(
+      title: _titleController.text,
+      description: _descriptionController.text,
+      date: _date,
+      startTime: _startTime,
+      endTime: _endTime,
+      repeat: _repeat,
+      isCompleted: false,
+      color: _selectedColor.value,
+    );
+    BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
+    Navigator.pop(context);
   }
 }

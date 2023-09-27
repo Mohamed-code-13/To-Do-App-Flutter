@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app_router.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../themes/custom_theme.dart';
+import 'home_screen.dart';
 
 class ToDoApp extends StatelessWidget {
   final AppRouter appRouter = const AppRouter();
@@ -21,6 +22,7 @@ class ToDoApp extends StatelessWidget {
           darkTheme: Styles.darkTheme,
           themeMode: state,
           onGenerateRoute: appRouter.generateRoute,
+          initialRoute: HomeScreen.routeName,
         );
       },
     );

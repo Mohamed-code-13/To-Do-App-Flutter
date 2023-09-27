@@ -16,7 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return BlocProvider(
+    return BlocProvider<ThemeCubit>(
       create: (_) => ThemeCubit(),
       child: const ToDoApp(),
     );

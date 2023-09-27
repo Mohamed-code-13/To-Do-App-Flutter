@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
+import '../../logic/add_task_cubit/add_task_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
-import '../../models/task_model.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/date_timeline_bar.dart';
-import '../widgets/task_tile.dart';
+import '../widgets/loading_indicator.dart';
 import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
 
@@ -24,58 +24,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
   final DateFormat _dateFormat = DateFormat.yMMMMd();
-  final task = TaskModel(
-      title: 'First Title',
-      description: 'This is the first description of the first title',
-      date: '9/28/2023',
-      startTime: '02:43 PM',
-      endTime: '03:00 PM',
-      repeat: 'None',
-      isCompleted: true,
-      color: 0xFF08c4b2);
-  List<TaskModel> tasks = [
-    TaskModel(
-      title: 'First Title',
-      description: 'This is the first description of the first title',
-      date: '9/28/2023',
-      startTime: '02:43 PM',
-      endTime: '03:00 PM',
-      repeat: 'None',
-      isCompleted: false,
-      color: Colors.amber[800]!.value,
-    ),
-    TaskModel(
-      title: 'First Title',
-      description: 'This is the first ',
-      date: '9/28/2023',
-      startTime: '02:43 PM',
-      endTime: '03:00 PM',
-      repeat: 'None',
-      isCompleted: true,
-      color: Colors.purple.value,
-    ),
-    TaskModel(
-      title: 'First Title',
-      description: 'This is the',
-      date: '9/28/2023',
-      startTime: '02:43 PM',
-      endTime: '03:00 PM',
-      repeat: 'None',
-      isCompleted: true,
-      color: Colors.amber[800]!.value,
-    ),
-    TaskModel(
-      title: 'First Title',
-      description:
-          'This is the first description of the first title asfsa fasd ',
-      date: '9/28/2023',
-      startTime: '02:43 PM',
-      endTime: '03:00 PM',
-      repeat: 'None',
-      isCompleted: false,
-      color: 0xFF08c4b2,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +52,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 _selectedDateTime = date;
               }),
             ),
-            Expanded(child: TasksList(tasks: tasks)),
+            _buildContent(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return BlocBuilder<AddTaskCubit, AddTaskState>(builder: (context, state) {
+      if (state is AddTaskLoadingState) {
+        return const LoadingIndicator();
+      }
+      if (BlocProvider.of<AddTaskCubit>(context).tasks.isEmpty) {
+        return _noTasks(context);
+      } else {
+        return _buildTasks();
+      }
+    });
+  }
+
+  Widget _buildTasks() {
+    return Expanded(
+      child: TasksList(
+        tasks: BlocProvider.of<AddTaskCubit>(context).tasks,
       ),
     );
   }
@@ -120,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
           _getTodayDate(),
           CustomButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AddTaskScreen.routeName);
+              Navigator.of(context).pushNamed(
+                AddTaskScreen.routeName,
+                arguments: context,
+              );
             },
             title: '+ Add Task',
           ),

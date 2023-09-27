@@ -90,7 +90,7 @@ class TaskTile extends StatelessWidget {
 
   Widget _getDescription() {
     return Text(
-      '${task.description}${task.description}${task.description}${task.description}',
+      task.description,
       textAlign: TextAlign.justify,
       style: GoogleFonts.robotoMono(
         color: Colors.white,
