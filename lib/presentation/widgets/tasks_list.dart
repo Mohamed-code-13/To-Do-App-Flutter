@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/presentation/widgets/custom_bottom_modal_sheet.dart';
 import 'package:to_do_app/presentation/widgets/task_tile.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
@@ -28,14 +29,21 @@ class TasksList extends StatelessWidget {
                 key: UniqueKey(),
                 background: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  color: Colors.red[800],
+                  color: Theme.of(context).colorScheme.error,
                 ),
                 onDismissed: (direction) {
                   tasks[index].delete();
                   _showSnackBar(context);
                   BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
                 },
-                child: TaskTile(task: tasks[index]),
+                child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (_) => const CustomBottomModalSheet(),
+                      );
+                    },
+                    child: TaskTile(task: tasks[index])),
               ),
             ),
           ),
