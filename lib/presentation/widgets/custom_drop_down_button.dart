@@ -19,6 +19,8 @@ class CustomDropDownButton extends StatelessWidget {
       style: GoogleFonts.robotoMono(color: Colors.white, fontSize: 16),
       padding: const EdgeInsets.all(8.0),
       borderRadius: BorderRadius.circular(12),
+      icon: const Icon(Icons.keyboard_arrow_down_rounded),
+      iconSize: 30,
       items: dropDownItems,
       onChanged: onChanged,
     );

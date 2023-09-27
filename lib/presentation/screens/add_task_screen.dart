@@ -37,6 +37,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _titleController.dispose();
+    _descriptionController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +95,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       title: 'Date',
       hintText: _date,
       icon: IconButton(
-        icon: const Icon(Icons.calendar_month_outlined),
+        icon: const Icon(Icons.calendar_today_outlined),
         onPressed: () {
           showDatePicker(
             context: context,
@@ -95,9 +103,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             firstDate: DateTime(2000),
             lastDate: DateTime(2300),
           ).then((value) {
-            if (value == null) {
-              return;
-            }
+            if (value == null) return;
+
             setState(() {
               _date = _dateFormat.format(value);
             });

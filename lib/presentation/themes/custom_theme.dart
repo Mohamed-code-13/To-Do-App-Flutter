@@ -8,6 +8,19 @@ class Styles {
     seedColor: const Color(0xFF08c4b2),
   );
 
+  static final ElevatedButtonThemeData _elevatedButtonThemeData =
+      ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.getProportionateScreenWidth(12),
+        vertical: SizeConfig.getProportionateScreenHeight(10),
+      ),
+      foregroundColor: myColorScheme.primary,
+      backgroundColor: myColorScheme.primaryContainer,
+    ),
+  );
+
   static ThemeData lightTheme = ThemeData().copyWith(
     useMaterial3: true,
     colorScheme: myColorScheme,
@@ -16,17 +29,7 @@ class Styles {
       foregroundColor: myColorScheme.primary,
       backgroundColor: myColorScheme.onPrimary,
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.getProportionateScreenWidth(12),
-          vertical: SizeConfig.getProportionateScreenHeight(10),
-        ),
-        foregroundColor: myColorScheme.primary,
-        backgroundColor: myColorScheme.primaryContainer,
-      ),
-    ),
+    elevatedButtonTheme: _elevatedButtonThemeData,
     dropdownMenuTheme: const DropdownMenuThemeData().copyWith(
       textStyle: GoogleFonts.robotoMono(
         color: Colors.white,
@@ -44,17 +47,7 @@ class Styles {
       foregroundColor: Colors.white,
       backgroundColor: myColorScheme.onPrimaryContainer,
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.getProportionateScreenWidth(12),
-          vertical: SizeConfig.getProportionateScreenHeight(10),
-        ),
-        foregroundColor: myColorScheme.primary,
-        backgroundColor: myColorScheme.primaryContainer,
-      ),
-    ),
+    elevatedButtonTheme: _elevatedButtonThemeData,
     dropdownMenuTheme: const DropdownMenuThemeData().copyWith(
       textStyle: GoogleFonts.robotoMono(
         color: Colors.white,

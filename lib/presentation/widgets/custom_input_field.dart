@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../logic/theme_cubit/theme_cubit.dart';
 
 class CustomInputField extends StatelessWidget {
   final String hintText;
@@ -34,6 +38,7 @@ class CustomInputField extends StatelessWidget {
           focusedBorder: _inputBorder(context),
           enabledBorder: _inputBorder(context),
         ),
+        style: GoogleFonts.robotoMono(color: _getTextColor(context)),
       ),
     );
   }
@@ -46,5 +51,11 @@ class CustomInputField extends StatelessWidget {
         width: 2.0,
       ),
     );
+  }
+
+  Color _getTextColor(BuildContext context) {
+    return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
+        ? Colors.black
+        : Colors.white;
   }
 }
