@@ -12,6 +12,7 @@ import '../widgets/date_timeline_bar.dart';
 import '../widgets/loading_indicator.dart';
 import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
+import 'categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home_screen';
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDateTime = DateTime.now();
   final DateFormat _dateFormat = DateFormat.yMMMMd();
+  bool home = true;
 
   @override
   void initState() {
@@ -50,20 +52,24 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [_getPersonLogo()],
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _addTaskBar(),
-            DateTimeLineBar(
-              onChanged: (DateTime date) => setState(() {
-                _selectedDateTime = date;
-              }),
-            ),
-            _buildContent(),
-          ],
-        ),
+        child: home ? _getTasksContent() : const CategoriesScreen(),
       ),
-      bottomNavigationBar: const CustomNavBar(),
+      bottomNavigationBar: CustomNavBar(onTap: _changeScreen),
+    );
+  }
+
+  Column _getTasksContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        _addTaskBar(),
+        DateTimeLineBar(
+          onChanged: (DateTime date) => setState(() {
+            _selectedDateTime = date;
+          }),
+        ),
+        _buildContent(),
+      ],
     );
   }
 
@@ -171,5 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
         ? Theme.of(context).colorScheme.primary
         : Colors.grey;
+  }
+
+  void _changeScreen(int index) {
+    setState(() {
+      home = index == 0;
+    });
   }
 }

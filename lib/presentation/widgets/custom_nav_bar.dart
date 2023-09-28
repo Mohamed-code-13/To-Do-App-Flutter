@@ -5,12 +5,13 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../size_config/size_config.dart';
 
 class CustomNavBar extends StatelessWidget {
+  final void Function(int) onTap;
   final List<GButton> tabs = const [
     GButton(icon: Icons.home, text: 'Home'),
     GButton(icon: Icons.view_comfy_rounded, text: 'Categories'),
   ];
 
-  const CustomNavBar({super.key});
+  const CustomNavBar({required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class CustomNavBar extends StatelessWidget {
         fontWeight: FontWeight.bold,
       ),
       tabs: tabs,
+      onTabChange: onTap,
     );
   }
 }
