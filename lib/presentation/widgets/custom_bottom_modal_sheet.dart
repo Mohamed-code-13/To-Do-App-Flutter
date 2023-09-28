@@ -9,7 +9,10 @@ import '../size_config/size_config.dart';
 class CustomBottomModalSheet extends StatelessWidget {
   final TaskModel task;
 
-  const CustomBottomModalSheet({required this.task, super.key});
+  const CustomBottomModalSheet({
+    required this.task,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +83,11 @@ class CustomBottomModalSheet extends StatelessWidget {
   void _markAsCompleted(BuildContext context) {
     task.isCompleted = !task.isCompleted;
     task.save();
+    _showSnackBar(
+      context,
+      'Marked as ${task.isCompleted ? 'Completed' : 'To Do'}',
+      Colors.green,
+    );
     BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
 
     Navigator.pop(context);
@@ -87,8 +95,20 @@ class CustomBottomModalSheet extends StatelessWidget {
 
   void _deleteTask(BuildContext context) {
     task.delete();
+    _showSnackBar(context, 'Task deleted!', Colors.red);
     BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
 
     Navigator.pop(context);
+  }
+
+  void _showSnackBar(BuildContext context, String title, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          title,
+          style: GoogleFonts.robotoMono(color: color),
+        ),
+      ),
+    );
   }
 }

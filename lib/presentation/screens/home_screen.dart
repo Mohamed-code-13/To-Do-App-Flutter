@@ -7,6 +7,7 @@ import 'package:to_do_app/presentation/size_config/size_config.dart';
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/custom_nav_bar.dart';
 import '../widgets/date_timeline_bar.dart';
 import '../widgets/loading_indicator.dart';
 import '../widgets/tasks_list.dart';
@@ -62,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const CustomNavBar(),
     );
   }
 
