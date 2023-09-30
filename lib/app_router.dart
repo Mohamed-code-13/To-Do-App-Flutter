@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/add_task_cubit/add_task_cubit.dart';
+import 'presentation/screens/add_category_screen.dart';
 import 'presentation/screens/add_task_screen.dart';
 import 'presentation/screens/home_screen.dart';
 
@@ -21,6 +22,8 @@ class AppRouter {
             child: const AddTaskScreen(),
           ),
         );
+      case AddCategoryScreen.routeName:
+        return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }
