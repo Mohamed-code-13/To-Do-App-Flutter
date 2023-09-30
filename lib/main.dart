@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:to_do_app/models/category_model.dart';
 import 'package:to_do_app/models/task_model.dart';
 
 import 'logic/read_task_cubit/read_task_cubit.dart';
@@ -13,7 +14,10 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
+  Hive.registerAdapter(CategoryModelAdapter());
+
   await Hive.openBox<TaskModel>(kTaskBox);
+  await Hive.openBox<CategoryModel>(kCategoryBox);
 
   runApp(const App());
 }

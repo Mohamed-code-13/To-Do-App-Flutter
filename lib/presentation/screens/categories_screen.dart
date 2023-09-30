@@ -10,16 +10,7 @@ import '../widgets/custom_button.dart';
 import 'add_category_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  final List<CategoryModel> categories = const [
-    CategoryModel(title: 'Home', color: 0xFF08c4b2),
-    CategoryModel(title: 'Work', color: 0xFFFF8F00),
-    CategoryModel(title: 'Sport', color: 0xFF9C27B0),
-    CategoryModel(title: 'Learn', color: 0xFFFF8F00),
-    CategoryModel(title: 'Home', color: 0xFF08c4b2),
-    CategoryModel(title: 'Work', color: 0xFFFF8F00),
-    CategoryModel(title: 'Sport', color: 0xFF9C27B0),
-    CategoryModel(title: 'Learn', color: 0xFFFF8F00),
-  ];
+  final List<CategoryModel> categories = const [];
 
   const CategoriesScreen({super.key});
 
