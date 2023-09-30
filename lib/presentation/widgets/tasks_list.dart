@@ -57,6 +57,7 @@ class TasksList extends StatelessWidget {
   void _showSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: const Duration(seconds: 1),
         content: Text(
           'Task deleted!',
           style: GoogleFonts.robotoMono(color: Colors.red),
