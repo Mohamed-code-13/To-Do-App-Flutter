@@ -5,9 +5,11 @@ import 'package:to_do_app/presentation/widgets/loading_indicator.dart';
 
 import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
+import '../helper/helper.dart';
 import '../size_config/size_config.dart';
 import '../widgets/categories_grid.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/no_categories.dart';
 import 'add_category_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -36,34 +38,14 @@ class CategoriesScreen extends StatelessWidget {
       return const LoadingIndicator();
     }
     if (BlocProvider.of<ReadCategoryCubit>(context).categoreis.isEmpty) {
-      return _noCategories(context);
+      return const Expanded(
+          child: NoCategories(
+        title: 'You don\'t have any categories yet!',
+      ));
     } else {
       return CategoriesGrid(
           categories: BlocProvider.of<ReadCategoryCubit>(context).categoreis);
     }
-  }
-
-  Widget _noCategories(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/menu.png',
-            color: Theme.of(context).colorScheme.primary,
-            width: SizeConfig.screenWidth / 3,
-          ),
-          Text(
-            'You don\'t have any categories yet',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.robotoMono(
-              fontSize: SizeConfig.getProportionateScreenWidth(16),
-              color: _getCorrectColor(context),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _getNewCategoryButton(BuildContext context) {
@@ -83,15 +65,9 @@ class CategoriesScreen extends StatelessWidget {
       style: GoogleFonts.robotoMono(
         fontWeight: FontWeight.bold,
         fontSize: SizeConfig.getProportionateScreenWidth(18),
-        color: _getCorrectColor(context),
+        color: getCorrectColor(context),
       ),
       textAlign: TextAlign.center,
     );
-  }
-
-  Color _getCorrectColor(BuildContext context) {
-    return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
-        ? Theme.of(context).colorScheme.primary
-        : Colors.grey;
   }
 }

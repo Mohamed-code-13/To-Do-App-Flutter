@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../helper/helper.dart';
+
 class AvailableCategories extends StatelessWidget {
   final Map<String, bool> categories;
   final void Function(String, bool) onChanged;
@@ -14,7 +16,7 @@ class AvailableCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     return categories.isEmpty
         ? _buildEmptyCategories(context)
-        : _buildCategories();
+        : _buildCategories(context);
   }
 
   Widget _buildEmptyCategories(BuildContext context) {
@@ -28,13 +30,20 @@ class AvailableCategories extends StatelessWidget {
     );
   }
 
-  Widget _buildCategories() {
+  Widget _buildCategories(BuildContext context) {
     return Wrap(
       children: categories.keys
           .map(
             (category) => CheckboxListTile(
               value: categories[category],
-              title: Text(category),
+              title: Text(
+                category,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: getCorrectColor(context),
+                ),
+              ),
               onChanged: (val) {
                 if (val != null) {
                   onChanged(category, val);

@@ -7,6 +7,7 @@ import 'package:to_do_app/presentation/size_config/size_config.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
+import '../helper/helper.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_nav_bar.dart';
 import '../widgets/date_timeline_bar.dart';
@@ -127,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
           textAlign: TextAlign.center,
           style: GoogleFonts.robotoMono(
             fontSize: SizeConfig.getProportionateScreenWidth(16),
-            color: _getCorrectColor(),
+            color: getCorrectColor(context),
           ),
         ),
       ],
@@ -143,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: GoogleFonts.robotoMono(
             fontWeight: FontWeight.bold,
             fontSize: SizeConfig.getProportionateScreenWidth(18),
-            color: _getCorrectColor(),
+            color: getCorrectColor(context),
           ),
         ),
         Text(
@@ -151,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: GoogleFonts.robotoMono(
             fontWeight: FontWeight.bold,
             fontSize: SizeConfig.getProportionateScreenWidth(20),
-            color: _getCorrectColor(),
+            color: getCorrectColor(context),
           ),
         ),
       ],
@@ -173,12 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Icon(Icons.wb_sunny_outlined);
     }
     return const Icon(Icons.nightlight_round_outlined);
-  }
-
-  Color _getCorrectColor() {
-    return BlocProvider.of<ThemeCubit>(context).themeMode == ThemeMode.light
-        ? Theme.of(context).colorScheme.primary
-        : Colors.grey;
   }
 
   void _changeScreen(int index) {

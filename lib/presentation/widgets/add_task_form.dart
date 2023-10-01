@@ -84,8 +84,8 @@ class _AddTaskFormState extends State<AddTaskForm> {
             _getDate(context),
             _getStartEndTime(context),
             _getRepeat(),
-            _getCategories(),
             _getColorsBar(),
+            _getCategories(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
