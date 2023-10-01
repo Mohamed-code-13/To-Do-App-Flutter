@@ -10,7 +10,7 @@ class ReadTaskCubit extends Cubit<ReadTaskState> {
 
   List<TaskModel> tasks = [];
 
-  void getAllTasks() async {
+  void getAllTasks() {
     emit(ReadTaskLoadingState());
 
     var tasksBox = Hive.box<TaskModel>(kTaskBox);
