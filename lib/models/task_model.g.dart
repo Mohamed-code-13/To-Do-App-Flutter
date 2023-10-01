@@ -25,13 +25,14 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       repeat: fields[5] as String,
       isCompleted: fields[6] as bool,
       color: fields[7] as int,
+      categories: (fields[8] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       ..writeByte(6)
       ..write(obj.isCompleted)
       ..writeByte(7)
-      ..write(obj.color);
+      ..write(obj.color)
+      ..writeByte(8)
+      ..write(obj.categories);
   }
 
   @override

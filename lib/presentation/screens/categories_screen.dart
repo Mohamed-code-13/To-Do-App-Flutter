@@ -5,10 +5,8 @@ import 'package:to_do_app/presentation/widgets/loading_indicator.dart';
 
 import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
-import '../../models/category_model.dart';
 import '../size_config/size_config.dart';
 import '../widgets/categories_grid.dart';
-import '../widgets/category_tile.dart';
 import '../widgets/custom_button.dart';
 import 'add_category_screen.dart';
 

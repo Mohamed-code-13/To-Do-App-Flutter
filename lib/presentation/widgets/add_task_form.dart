@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../logic/add_task_cubit/add_task_cubit.dart';
+import '../../logic/read_category_cubit/read_category_cubit.dart';
+import '../../models/category_model.dart';
 import '../../models/task_model.dart';
+import 'available_categories.dart';
 import 'colors_bar.dart';
 import 'custom_button.dart';
 import 'custom_drop_down_button.dart';
@@ -29,6 +32,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
   late String _endTime;
   late String _repeat;
   late Color _selectedColor;
+  Map<String, bool> categories = {};
 
   @override
   void initState() {
@@ -41,6 +45,12 @@ class _AddTaskFormState extends State<AddTaskForm> {
     );
     _repeat = 'None';
     _selectedColor = const Color(0xFF08c4b2);
+
+    List<CategoryModel> cats =
+        BlocProvider.of<ReadCategoryCubit>(context).categoreis;
+    for (var c in cats) {
+      categories[c.title] = false;
+    }
   }
 
   @override
@@ -74,6 +84,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
             _getDate(context),
             _getStartEndTime(context),
             _getRepeat(),
+            _getCategories(),
             _getColorsBar(),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -178,6 +189,29 @@ class _AddTaskFormState extends State<AddTaskForm> {
     );
   }
 
+  Widget _getCategories() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Categories',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          AvailableCategories(
+            categories: categories,
+            onChanged: _changeCategory,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _getColorsBar() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
@@ -217,6 +251,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
         repeat: _repeat,
         isCompleted: false,
         color: _selectedColor.value,
+        categories: [],
       );
       await BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
     } else {
@@ -224,5 +259,12 @@ class _AddTaskFormState extends State<AddTaskForm> {
         autovalidateMode = AutovalidateMode.always;
       });
     }
+  }
+
+  void _changeCategory(String cat, bool val) {
+    setState(() {
+      categories[cat] = val;
+    });
+    print(categories);
   }
 }

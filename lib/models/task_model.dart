@@ -22,6 +22,8 @@ class TaskModel extends HiveObject {
   bool isCompleted;
   @HiveField(7)
   final int color;
+  @HiveField(8)
+  final List<String> categories;
 
   TaskModel({
     required this.title,
@@ -32,5 +34,6 @@ class TaskModel extends HiveObject {
     required this.repeat,
     required this.isCompleted,
     required this.color,
+    required this.categories,
   });
 }
