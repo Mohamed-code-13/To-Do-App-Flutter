@@ -205,7 +205,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
     );
   }
 
-  void _onSubmit() {
+  Future<void> _onSubmit() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       TaskModel currTask = TaskModel(
@@ -218,7 +218,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
         isCompleted: false,
         color: _selectedColor.value,
       );
-      BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
+      await BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
     } else {
       setState(() {
         autovalidateMode = AutovalidateMode.always;

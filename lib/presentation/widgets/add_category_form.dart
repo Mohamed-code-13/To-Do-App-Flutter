@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/presentation/widgets/label_input_field.dart';
 
+import '../../logic/add_category_cubit/add_category_cubit.dart';
+import '../../models/category_model.dart';
 import 'colors_bar.dart';
 import 'custom_button.dart';
 
@@ -77,9 +80,27 @@ class _AddCategoryFormState extends State<AddCategoryForm> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CustomButton(
-        onPressed: () {},
+        onPressed: _onSubmit,
         title: 'Create category',
+        loading: BlocProvider.of<AddCategoryCubit>(context).state
+            is AddCategoryLoadingState,
       ),
     );
+  }
+
+  Future<void> _onSubmit() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      CategoryModel category = CategoryModel(
+        title: _titleController.text,
+        color: _selectedColor.value,
+      );
+
+      await BlocProvider.of<AddCategoryCubit>(context).addCategory(category);
+    } else {
+      setState(() {
+        autovalidateMode = AutovalidateMode.always;
+      });
+    }
   }
 }
