@@ -251,7 +251,8 @@ class _AddTaskFormState extends State<AddTaskForm> {
         repeat: _repeat,
         isCompleted: false,
         color: _selectedColor.value,
-        categories: [],
+        categories:
+            categories.keys.where((element) => categories[element]!).toList(),
       );
       await BlocProvider.of<AddTaskCubit>(context).addTask(currTask);
     } else {

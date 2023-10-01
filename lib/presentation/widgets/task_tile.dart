@@ -46,6 +46,7 @@ class TaskTile extends StatelessWidget {
         _getTitle(),
         _getStartEndTime(),
         _getDescription(),
+        _getCategories(),
         _getDate(),
       ],
     );
@@ -95,6 +96,26 @@ class TaskTile extends StatelessWidget {
       style: GoogleFonts.robotoMono(
         color: Colors.white,
         fontSize: SizeConfig.getProportionateScreenWidth(16),
+      ),
+    );
+  }
+
+  Widget _getCategories() {
+    if (task.categories.isEmpty) {
+      return Container();
+    }
+    String res = '';
+    for (var cat in task.categories) {
+      res += '#$cat ';
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: Text(
+        res,
+        style: GoogleFonts.robotoMono(
+          color: Colors.white,
+          fontSize: SizeConfig.getProportionateScreenWidth(16),
+        ),
       ),
     );
   }
