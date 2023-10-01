@@ -1,49 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_app/presentation/widgets/loading_indicator.dart';
 
+import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import '../../models/category_model.dart';
 import '../size_config/size_config.dart';
+import '../widgets/categories_grid.dart';
 import '../widgets/category_tile.dart';
 import '../widgets/custom_button.dart';
 import 'add_category_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  final List<CategoryModel> categories = const [];
-
   const CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: SizeConfig.screenWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _getNewCategoryButton(context),
-          _getCategoriesCount(context),
-          _getContent(context),
-        ],
-      ),
-    );
+    return BlocBuilder<ReadCategoryCubit, ReadCategoryState>(
+        builder: (context, state) {
+      return SizedBox(
+        width: SizeConfig.screenWidth,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _getNewCategoryButton(context),
+            _getCategoriesCount(context),
+            _getContent(context, state),
+          ],
+        ),
+      );
+    });
   }
 
-  Widget _getContent(BuildContext context) {
-    if (categories.isEmpty) {
-      return _noCategories(context);
+  Widget _getContent(BuildContext context, ReadCategoryState state) {
+    if (state is ReadCategoryLoadingState) {
+      return const LoadingIndicator();
     }
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.all(8),
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: categories.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: ((context, index) =>
-            CategoryTile(categoryModel: categories[index])),
-      ),
-    );
+    if (BlocProvider.of<ReadCategoryCubit>(context).categoreis.isEmpty) {
+      return _noCategories(context);
+    } else {
+      return CategoriesGrid(
+          categories: BlocProvider.of<ReadCategoryCubit>(context).categoreis);
+    }
   }
 
   Widget _noCategories(BuildContext context) {
@@ -82,7 +81,7 @@ class CategoriesScreen extends StatelessWidget {
 
   Text _getCategoriesCount(BuildContext context) {
     return Text(
-      'You have ${categories.length} categories',
+      'You have ${BlocProvider.of<ReadCategoryCubit>(context).categoreis.length} categories',
       style: GoogleFonts.robotoMono(
         fontWeight: FontWeight.bold,
         fontSize: SizeConfig.getProportionateScreenWidth(18),

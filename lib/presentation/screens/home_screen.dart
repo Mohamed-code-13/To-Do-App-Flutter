@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/logic/read_category_cubit/read_category_cubit.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+    BlocProvider.of<ReadCategoryCubit>(context).getAllCategories();
   }
 
   @override

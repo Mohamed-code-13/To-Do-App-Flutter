@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../logic/add_category_cubit/add_category_cubit.dart';
+import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../widgets/add_category_form.dart';
 
 class AddCategoryScreen extends StatelessWidget {
@@ -20,7 +22,9 @@ class AddCategoryScreen extends StatelessWidget {
                 if (state is AddCategorySuccessState) {
                   _showSnackBar(
                       context, 'Category added successfully!', Colors.green);
-                  // TODO BlocProvider.of
+                  BlocProvider.of<ReadCategoryCubit>(context)
+                      .getAllCategories();
+
                   Navigator.pop(context);
                 } else if (state is AddCategoryFailureState) {
                   _showSnackBar(context, state.errorMsg, Colors.red);

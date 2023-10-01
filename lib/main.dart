@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:to_do_app/models/category_model.dart';
 import 'package:to_do_app/models/task_model.dart';
 
+import 'logic/read_category_cubit/read_category_cubit.dart';
 import 'logic/read_task_cubit/read_task_cubit.dart';
 import 'logic/theme_cubit/theme_cubit.dart';
 import 'presentation/screens/to_do_app.dart';
@@ -33,6 +34,7 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => ReadTaskCubit()),
+        BlocProvider(create: (_) => ReadCategoryCubit()),
       ],
       child: const ToDoApp(),
     );
