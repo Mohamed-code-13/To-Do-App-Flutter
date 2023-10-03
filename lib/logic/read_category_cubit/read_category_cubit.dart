@@ -19,4 +19,9 @@ class ReadCategoryCubit extends Cubit<ReadCategoryState> {
 
     emit(ReadCategorySuccessState());
   }
+
+  Future<void> deleteCategory(CategoryModel category) async {
+    await category.delete();
+    getAllCategories();
+  }
 }

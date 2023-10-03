@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../models/category_model.dart';
 import '../../models/task_model.dart';
 import '../size_config/size_config.dart';
 import '../widgets/colored_button.dart';
 import '../widgets/no_categories.dart';
+import '../widgets/show_snack_bar.dart';
 import '../widgets/tasks_list.dart';
 
 class SpecificCategoryScreen extends StatelessWidget {
@@ -58,13 +60,20 @@ class SpecificCategoryScreen extends StatelessWidget {
   Widget _getDeleteButton(BuildContext context) {
     return ColoredButton(
       title: 'Delete Category',
-      onTap: () => null,
+      onTap: () async => await _deleteCategory(context),
       textColor: Colors.white,
       backgroundColor: Theme.of(context).colorScheme.error,
     );
   }
 
-  void _deleteCategory() {}
+  Future<void> _deleteCategory(BuildContext context) async {
+    var nav = Navigator.of(context);
+
+    showSnackBar(context, 'Category deleted!', Colors.red);
+    await BlocProvider.of<ReadCategoryCubit>(context).deleteCategory(category);
+
+    nav.pop();
+  }
 
   List<TaskModel> _getSpecificTasks(List<TaskModel> tasks, String title) {
     return tasks
