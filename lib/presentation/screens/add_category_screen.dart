@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../logic/add_category_cubit/add_category_cubit.dart';
 import '../../logic/read_category_cubit/read_category_cubit.dart';

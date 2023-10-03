@@ -37,10 +37,12 @@ class SpecificCategoryScreen extends StatelessWidget {
       var tasks = _getSpecificTasks(allTasks, category.title);
 
       if (tasks.isEmpty) {
-        return SizedBox(
-          width: SizeConfig.screenWidth,
-          child: const NoCategories(
-            title: 'You don\'t have any tasks in this category!',
+        return Expanded(
+          child: SizedBox(
+            width: SizeConfig.screenWidth,
+            child: const NoCategories(
+              title: 'You don\'t have any tasks in this category!',
+            ),
           ),
         );
       }
@@ -61,6 +63,8 @@ class SpecificCategoryScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.error,
     );
   }
+
+  void _deleteCategory() {}
 
   List<TaskModel> _getSpecificTasks(List<TaskModel> tasks, String title) {
     return tasks

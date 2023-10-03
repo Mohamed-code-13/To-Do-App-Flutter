@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/presentation/widgets/custom_bottom_modal_sheet.dart';
 import 'package:to_do_app/presentation/widgets/task_tile.dart';
 
@@ -32,10 +31,10 @@ class TasksList extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   color: Theme.of(context).colorScheme.error,
                 ),
-                onDismissed: (direction) {
-                  tasks[index].delete();
+                onDismissed: (direction) async {
                   showSnackBar(context, 'Task deleted!', Colors.red);
-                  BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+                  await BlocProvider.of<ReadTaskCubit>(context)
+                      .deleteTask(tasks[index]);
                 },
                 child: GestureDetector(
                     onTap: () {

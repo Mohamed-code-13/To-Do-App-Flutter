@@ -18,4 +18,15 @@ class ReadTaskCubit extends Cubit<ReadTaskState> {
     tasks = tasksBox.values.toList();
     emit(ReadTaskSuccessState());
   }
+
+  Future<void> toggleComplete(TaskModel task) async {
+    task.isCompleted = !task.isCompleted;
+    await task.save();
+    getAllTasks();
+  }
+
+  Future<void> deleteTask(TaskModel task) async {
+    await task.delete();
+    getAllTasks();
+  }
 }

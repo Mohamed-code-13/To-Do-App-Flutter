@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../models/task_model.dart';
@@ -30,13 +29,13 @@ class CustomBottomModalSheet extends StatelessWidget {
           const SizedBox(height: 12),
           ColoredButton(
             title: 'Mark as ${task.isCompleted ? 'To Do' : 'completed'}',
-            onTap: () => _markAsCompleted(context),
+            onTap: () async => await _markAsCompleted(context),
             textColor: Colors.white,
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
           ColoredButton(
             title: 'Delete',
-            onTap: () => _deleteTask(context),
+            onTap: () async => await _deleteTask(context),
             textColor: Colors.white,
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
@@ -56,24 +55,25 @@ class CustomBottomModalSheet extends StatelessWidget {
     return Theme.of(context).scaffoldBackgroundColor;
   }
 
-  void _markAsCompleted(BuildContext context) {
-    task.isCompleted = !task.isCompleted;
-    task.save();
+  Future<void> _markAsCompleted(BuildContext context) async {
+    var nav = Navigator.of(context);
+
     showSnackBar(
       context,
-      'Marked as ${task.isCompleted ? 'Completed' : 'To Do'}',
+      'Marked as ${task.isCompleted ? 'To Do' : 'Completed'}',
       Colors.green,
     );
-    BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+    await BlocProvider.of<ReadTaskCubit>(context).toggleComplete(task);
 
-    Navigator.pop(context);
+    nav.pop();
   }
 
-  void _deleteTask(BuildContext context) {
-    task.delete();
-    showSnackBar(context, 'Task deleted!', Colors.red);
-    BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
+  Future<void> _deleteTask(BuildContext context) async {
+    var nav = Navigator.of(context);
 
-    Navigator.pop(context);
+    showSnackBar(context, 'Task deleted!', Colors.red);
+    await BlocProvider.of<ReadTaskCubit>(context).deleteTask(task);
+
+    nav.pop();
   }
 }
