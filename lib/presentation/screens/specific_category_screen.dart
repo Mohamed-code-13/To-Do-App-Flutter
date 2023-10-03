@@ -68,9 +68,12 @@ class SpecificCategoryScreen extends StatelessWidget {
 
   Future<void> _deleteCategory(BuildContext context) async {
     var nav = Navigator.of(context);
+    var taskCubit = BlocProvider.of<ReadTaskCubit>(context);
+    var categoryCubit = BlocProvider.of<ReadCategoryCubit>(context);
 
     showSnackBar(context, 'Category deleted!', Colors.red);
-    await BlocProvider.of<ReadCategoryCubit>(context).deleteCategory(category);
+    await taskCubit.deleteCategory(category.title);
+    await categoryCubit.deleteCategory(category);
 
     nav.pop();
   }

@@ -29,4 +29,12 @@ class ReadTaskCubit extends Cubit<ReadTaskState> {
     await task.delete();
     getAllTasks();
   }
+
+  Future<void> deleteCategory(String category) async {
+    for (var task in tasks) {
+      task.categories.remove(category);
+      await task.save();
+    }
+    getAllTasks();
+  }
 }
