@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/presentation/widgets/loading_indicator.dart';
 
 import '../../logic/read_category_cubit/read_category_cubit.dart';
-import '../../logic/theme_cubit/theme_cubit.dart';
 import '../helper/helper.dart';
 import '../size_config/size_config.dart';
 import '../widgets/categories_grid.dart';

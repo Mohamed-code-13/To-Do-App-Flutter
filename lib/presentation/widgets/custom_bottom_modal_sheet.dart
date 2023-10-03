@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../models/task_model.dart';
 import '../size_config/size_config.dart';
+import 'colored_button.dart';
+import 'show_snack_bar.dart';
 
 class CustomBottomModalSheet extends StatelessWidget {
   final TaskModel task;
@@ -26,52 +28,26 @@ class CustomBottomModalSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 12),
-          _getButton(
-            'Mark as ${task.isCompleted ? 'To Do' : 'completed'}',
-            () => _markAsCompleted(context),
-            Colors.white,
-            Theme.of(context).colorScheme.primary,
+          ColoredButton(
+            title: 'Mark as ${task.isCompleted ? 'To Do' : 'completed'}',
+            onTap: () => _markAsCompleted(context),
+            textColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
-          _getButton(
-            'Delete',
-            () => _deleteTask(context),
-            Colors.white,
-            Theme.of(context).colorScheme.error,
+          ColoredButton(
+            title: 'Delete',
+            onTap: () => _deleteTask(context),
+            textColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
-          _getButton(
-            'Cancel',
-            () => Navigator.pop(context),
-            Colors.black,
-            Colors.white,
+          ColoredButton(
+            title: 'Cancel',
+            onTap: () => Navigator.pop(context),
+            textColor: Colors.black,
+            backgroundColor: Colors.white,
           ),
           const SizedBox(height: 22),
         ],
-      ),
-    );
-  }
-
-  Widget _getButton(
-    String title,
-    VoidCallback onTap,
-    Color textColor,
-    Color backgroundColor,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: SizeConfig.screenWidth,
-        padding: const EdgeInsets.all(22.0),
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.black, width: 1),
-        ),
-        child: Text(
-          title,
-          style: GoogleFonts.robotoMono(color: textColor, fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
       ),
     );
   }
@@ -83,7 +59,7 @@ class CustomBottomModalSheet extends StatelessWidget {
   void _markAsCompleted(BuildContext context) {
     task.isCompleted = !task.isCompleted;
     task.save();
-    _showSnackBar(
+    showSnackBar(
       context,
       'Marked as ${task.isCompleted ? 'Completed' : 'To Do'}',
       Colors.green,
@@ -95,21 +71,9 @@ class CustomBottomModalSheet extends StatelessWidget {
 
   void _deleteTask(BuildContext context) {
     task.delete();
-    _showSnackBar(context, 'Task deleted!', Colors.red);
+    showSnackBar(context, 'Task deleted!', Colors.red);
     BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
 
     Navigator.pop(context);
-  }
-
-  void _showSnackBar(BuildContext context, String title, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 1),
-        content: Text(
-          title,
-          style: GoogleFonts.robotoMono(color: color),
-        ),
-      ),
-    );
   }
 }

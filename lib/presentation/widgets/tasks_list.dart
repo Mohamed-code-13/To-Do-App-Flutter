@@ -7,6 +7,7 @@ import 'package:to_do_app/presentation/widgets/task_tile.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../models/task_model.dart';
+import 'show_snack_bar.dart';
 
 class TasksList extends StatelessWidget {
   final List<TaskModel> tasks;
@@ -33,7 +34,7 @@ class TasksList extends StatelessWidget {
                 ),
                 onDismissed: (direction) {
                   tasks[index].delete();
-                  _showSnackBar(context);
+                  showSnackBar(context, 'Task deleted!', Colors.red);
                   BlocProvider.of<ReadTaskCubit>(context).getAllTasks();
                 },
                 child: GestureDetector(
@@ -51,18 +52,6 @@ class TasksList extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  void _showSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 1),
-        content: Text(
-          'Task deleted!',
-          style: GoogleFonts.robotoMono(color: Colors.red),
-        ),
-      ),
     );
   }
 }

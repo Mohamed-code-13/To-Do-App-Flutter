@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../logic/add_category_cubit/add_category_cubit.dart';
 import '../../logic/read_category_cubit/read_category_cubit.dart';
 import '../widgets/add_category_form.dart';
+import '../widgets/show_snack_bar.dart';
 
 class AddCategoryScreen extends StatelessWidget {
   static const String routeName = '/add_category_screen';
@@ -19,29 +20,17 @@ class AddCategoryScreen extends StatelessWidget {
           child: BlocListener<AddCategoryCubit, AddCategoryState>(
               listener: (context, state) {
                 if (state is AddCategorySuccessState) {
-                  _showSnackBar(
+                  showSnackBar(
                       context, 'Category added successfully!', Colors.green);
                   BlocProvider.of<ReadCategoryCubit>(context)
                       .getAllCategories();
 
                   Navigator.pop(context);
                 } else if (state is AddCategoryFailureState) {
-                  _showSnackBar(context, state.errorMsg, Colors.red);
+                  showSnackBar(context, state.errorMsg, Colors.red);
                 }
               },
               child: const AddCategoryForm())),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String title, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 1),
-        content: Text(
-          title,
-          style: GoogleFonts.robotoMono(color: color),
-        ),
-      ),
     );
   }
 }

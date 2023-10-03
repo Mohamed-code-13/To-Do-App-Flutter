@@ -22,8 +22,8 @@ class CustomNavBar extends StatelessWidget {
       color: Colors.white,
       activeColor: Colors.white,
       tabBackgroundColor: Colors.teal[900]!,
-      padding: const EdgeInsets.all(12.0),
-      tabMargin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8.0),
+      tabMargin: const EdgeInsets.all(8.0),
       iconSize: SizeConfig.getProportionateScreenWidth(28),
       textStyle: GoogleFonts.robotoMono(
         color: Theme.of(context).colorScheme.primaryContainer,
