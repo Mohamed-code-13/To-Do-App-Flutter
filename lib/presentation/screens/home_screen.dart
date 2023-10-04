@@ -17,7 +17,7 @@ import 'add_task_screen.dart';
 import 'categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/home_screen';
 
   const HomeScreen({super.key});
 
