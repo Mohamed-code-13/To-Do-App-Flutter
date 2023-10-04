@@ -266,6 +266,5 @@ class _AddTaskFormState extends State<AddTaskForm> {
     setState(() {
       categories[cat] = val;
     });
-    print(categories);
   }
 }

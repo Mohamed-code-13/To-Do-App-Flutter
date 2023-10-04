@@ -17,7 +17,7 @@ import 'add_task_screen.dart';
 import 'categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String routeName = '/home_screen';
+  static const String routeName = '/';
 
   const HomeScreen({super.key});
 
@@ -61,15 +61,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Column _getTasksContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _addTaskBar(),
-        DateTimeLineBar(
-          onChanged: (DateTime date) => setState(() {
-            _selectedDateTime = date;
-          }),
+  Widget _getTasksContent() {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _addTaskBar(),
+              DateTimeLineBar(
+                onChanged: (DateTime date) => setState(() {
+                  _selectedDateTime = date;
+                }),
+              ),
+            ],
+          ),
         ),
         _buildContent(),
       ],
@@ -79,10 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildContent() {
     return BlocBuilder<ReadTaskCubit, ReadTaskState>(builder: (context, state) {
       if (state is ReadTaskLoadingState) {
-        return const LoadingIndicator();
+        return const SliverToBoxAdapter(child: LoadingIndicator());
       }
       if (BlocProvider.of<ReadTaskCubit>(context).tasks.isEmpty) {
-        return _noTasks(context);
+        return SliverToBoxAdapter(child: _noTasks(context));
       } else {
         return _buildTasks();
       }
@@ -90,10 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTasks() {
-    return Expanded(
-      child: TasksList(
-        tasks: BlocProvider.of<ReadTaskCubit>(context).tasks,
-      ),
+    return TasksList(
+      tasks: BlocProvider.of<ReadTaskCubit>(context).tasks,
     );
   }
 

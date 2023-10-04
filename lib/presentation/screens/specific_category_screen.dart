@@ -24,12 +24,13 @@ class SpecificCategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(category.title)),
       body: SafeArea(
-          child: Column(
-        children: [
-          _getDeleteButton(context),
-          _buildContent(),
-        ],
-      )),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: _getDeleteButton(context)),
+            _buildContent(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -39,7 +40,7 @@ class SpecificCategoryScreen extends StatelessWidget {
       var tasks = _getSpecificTasks(allTasks, category.title);
 
       if (tasks.isEmpty) {
-        return Expanded(
+        return SliverFillRemaining(
           child: SizedBox(
             width: SizeConfig.screenWidth,
             child: const NoCategories(
@@ -48,12 +49,7 @@ class SpecificCategoryScreen extends StatelessWidget {
           ),
         );
       }
-      return Expanded(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: TasksList(tasks: tasks),
-        ),
-      );
+      return TasksList(tasks: tasks);
     });
   }
 

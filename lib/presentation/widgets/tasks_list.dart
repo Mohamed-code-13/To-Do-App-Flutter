@@ -15,42 +15,43 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: tasks.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (ctx, index) {
-        return AnimationConfiguration.staggeredList(
-          duration: const Duration(milliseconds: 300),
-          position: index,
-          child: SlideAnimation(
-            horizontalOffset: 300,
-            child: FadeInAnimation(
-              child: Dismissible(
-                key: UniqueKey(),
-                background: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  color: Theme.of(context).colorScheme.error,
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: tasks.length,
+        (context, index) {
+          return AnimationConfiguration.staggeredList(
+            duration: const Duration(milliseconds: 300),
+            position: index,
+            child: SlideAnimation(
+              horizontalOffset: 300,
+              child: FadeInAnimation(
+                child: Dismissible(
+                  key: UniqueKey(),
+                  background: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  onDismissed: (direction) async {
+                    showSnackBar(context, 'Task deleted!', Colors.red);
+                    await BlocProvider.of<ReadTaskCubit>(context)
+                        .deleteTask(tasks[index]);
+                  },
+                  child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (_) => CustomBottomModalSheet(
+                            task: tasks[index],
+                          ),
+                        );
+                      },
+                      child: TaskTile(task: tasks[index])),
                 ),
-                onDismissed: (direction) async {
-                  showSnackBar(context, 'Task deleted!', Colors.red);
-                  await BlocProvider.of<ReadTaskCubit>(context)
-                      .deleteTask(tasks[index]);
-                },
-                child: GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (_) => CustomBottomModalSheet(
-                          task: tasks[index],
-                        ),
-                      );
-                    },
-                    child: TaskTile(task: tasks[index])),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
