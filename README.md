@@ -50,6 +50,10 @@ To get started, follow these steps:
 
 This app utilizes the Bloc (Cubit) pattern for efficient state management. It ensures a clean and organized separation of concerns, making the app more maintainable and scalable.
 
+## Local Data Storage with Hive
+
+This App leverages the power of Hive, a lightweight and efficient NoSQL database for Flutter, to provide seamless and reliable local data storage. Hive is used to store all the essential task and category information right on your device, ensuring that your data is readily available even without an internet connection.
+
 ## License
 
 This project is licensed under the MIT License.
