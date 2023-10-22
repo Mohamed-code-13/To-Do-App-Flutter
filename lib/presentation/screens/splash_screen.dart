@@ -36,13 +36,15 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _getImage(),
+            _getImage(context),
             AnimatedText(title: 'To Do App', slideAnimation: _slideAnimation),
           ],
         ),
@@ -50,10 +52,10 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Widget _getImage() {
+  Widget _getImage(BuildContext context) {
     return Image.asset(
       'assets/logo.png',
-      height: SizeConfig.screenWidth / 2,
+      height: MediaQuery.of(context).size.width / 2,
     );
   }
 

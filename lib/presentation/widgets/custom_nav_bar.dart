@@ -7,7 +7,8 @@ import '../size_config/size_config.dart';
 class CustomNavBar extends StatelessWidget {
   final void Function(int) onTap;
   final List<GButton> tabs = const [
-    GButton(icon: Icons.home, text: 'Home'),
+    GButton(icon: Icons.all_inbox_rounded, text: 'All'),
+    GButton(icon: Icons.calendar_today_rounded, text: 'Calendar'),
     GButton(icon: Icons.view_comfy_rounded, text: 'Categories'),
   ];
 
@@ -32,6 +33,7 @@ class CustomNavBar extends StatelessWidget {
       ),
       tabs: tabs,
       onTabChange: onTap,
+      selectedIndex: 1,
     );
   }
 }

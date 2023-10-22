@@ -8,7 +8,6 @@ import 'logic/read_category_cubit/read_category_cubit.dart';
 import 'logic/read_task_cubit/read_task_cubit.dart';
 import 'logic/theme_cubit/theme_cubit.dart';
 import 'presentation/screens/to_do_app.dart';
-import 'presentation/size_config/size_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +27,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig.init(context);
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),

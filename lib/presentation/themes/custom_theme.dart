@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../size_config/size_config.dart';
+// import '../size_config/size_config.dart';
 
 class Styles {
   static ColorScheme myColorScheme = ColorScheme.fromSeed(
@@ -12,9 +12,9 @@ class Styles {
       ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      padding: EdgeInsets.symmetric(
-        horizontal: SizeConfig.getProportionateScreenWidth(12),
-        vertical: SizeConfig.getProportionateScreenHeight(10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 10,
       ),
       foregroundColor: myColorScheme.primary,
       backgroundColor: myColorScheme.primaryContainer,

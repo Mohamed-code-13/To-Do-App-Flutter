@@ -14,7 +14,7 @@ class DateTimeLineBar extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(16.0),
       child: DatePicker(
-        DateTime.now(),
+        DateTime.now().subtract(const Duration(days: 2)),
         width: 70,
         height: SizeConfig.getProportionateScreenHeight(120),
         selectionColor: Theme.of(context).colorScheme.primary,

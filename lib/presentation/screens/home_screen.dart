@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:to_do_app/logic/read_category_cubit/read_category_cubit.dart';
 import 'package:to_do_app/presentation/size_config/size_config.dart';
 
 import '../../logic/read_task_cubit/read_task_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
-import '../helper/helper.dart';
-import '../widgets/custom_button.dart';
 import '../widgets/custom_nav_bar.dart';
-import '../widgets/date_timeline_bar.dart';
 import '../widgets/loading_indicator.dart';
+import '../widgets/no_tasks.dart';
 import '../widgets/tasks_list.dart';
-import 'add_task_screen.dart';
+import 'calendar_tasks_screen.dart';
 import 'categories_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,9 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime _selectedDateTime = DateTime.now();
-  final DateFormat _dateFormat = DateFormat.yMMMMd();
-  bool home = true;
+  int home = 1;
 
   @override
   void initState() {
@@ -55,30 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [_getPersonLogo()],
       ),
       body: SafeArea(
-        child: home ? _getTasksContent() : const CategoriesScreen(),
+        child: home == 0
+            ? CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [_buildContent()],
+              )
+            : home == 1
+                ? const CalendarTasksScreen()
+                : const CategoriesScreen(),
       ),
       bottomNavigationBar: CustomNavBar(onTap: _changeScreen),
-    );
-  }
-
-  Widget _getTasksContent() {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _addTaskBar(),
-              DateTimeLineBar(
-                onChanged: (DateTime date) => setState(() {
-                  _selectedDateTime = date;
-                }),
-              ),
-            ],
-          ),
-        ),
-        _buildContent(),
-      ],
     );
   }
 
@@ -88,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return const SliverToBoxAdapter(child: LoadingIndicator());
       }
       if (BlocProvider.of<ReadTaskCubit>(context).tasks.isEmpty) {
-        return SliverToBoxAdapter(child: _noTasks(context));
+        return const SliverToBoxAdapter(child: NoTasks());
       } else {
         return _buildTasks();
       }
@@ -98,68 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTasks() {
     return TasksList(
       tasks: BlocProvider.of<ReadTaskCubit>(context).tasks,
-    );
-  }
-
-  Widget _addTaskBar() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _getTodayDate(),
-          CustomButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(AddTaskScreen.routeName);
-            },
-            title: '+ Add Task',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _noTasks(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(
-          'assets/images/task.png',
-          color: Theme.of(context).colorScheme.primary,
-          width: SizeConfig.screenWidth / 3,
-        ),
-        Text(
-          'You don\'t have any tasks yet',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.robotoMono(
-            fontSize: SizeConfig.getProportionateScreenWidth(16),
-            color: getCorrectColor(context),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _getTodayDate() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          _dateFormat.format(DateTime.now()),
-          style: GoogleFonts.robotoMono(
-            fontWeight: FontWeight.bold,
-            fontSize: SizeConfig.getProportionateScreenWidth(18),
-            color: getCorrectColor(context),
-          ),
-        ),
-        Text(
-          'Today',
-          style: GoogleFonts.robotoMono(
-            fontWeight: FontWeight.bold,
-            fontSize: SizeConfig.getProportionateScreenWidth(20),
-            color: getCorrectColor(context),
-          ),
-        ),
-      ],
     );
   }
 
@@ -182,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _changeScreen(int index) {
     setState(() {
-      home = index == 0;
+      home = index;
     });
   }
 }
