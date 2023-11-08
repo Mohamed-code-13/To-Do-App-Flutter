@@ -83,7 +83,8 @@ class _CalendarTasksScreenState extends State<CalendarTasksScreen> {
       if (state is ReadTaskLoadingState) {
         return const SliverToBoxAdapter(child: LoadingIndicator());
       }
-      if (BlocProvider.of<ReadTaskCubit>(context).tasks.isEmpty) {
+      if (BlocProvider.of<ReadTaskCubit>(context).tasks.isEmpty ||
+          _getCorrectTasks(context).isEmpty) {
         return const SliverToBoxAdapter(child: NoTasks());
       } else {
         return _buildTasks();
